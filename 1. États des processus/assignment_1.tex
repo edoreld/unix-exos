@@ -1,0 +1,207 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Structured General Purpose Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}% http://ctan.org/pkg/fontenc
+\usepackage{upquote}
+\lstset{upquote=true}
+
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+\chead{} % Top center header
+\rhead{\hmwkClass\ (\hmwkTitle)} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Problemme \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+   
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{États\ des\ processus} % Assignment title
+\newcommand{\hmwkDueDate}{22 Mars 2017 avant 13:45} % Due date
+\newcommand{\hmwkClass}{Utilisation\ et\ Programmation UNIX} % Course/class
+\newcommand{\hmwkClassTime}{} % Class/lecture time
+\newcommand{\hmwkClassInstructor}{Arhodakis Georgios} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{Francisco Javier Martínez Lago} % Your name
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{À rendre\ le\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+\begin{homeworkProblem}[1. Détail de la colonne S du processus top] % Custom section title
+
+\problemAnswer{ % Answer
+
+La colonne S du processus top représente le Process Status (État d'un processus). Un processus sera en tout moment dans un état parmi les cinq états possibles : \emph{running} (R), \emph{uninterruptible sleep} (D), \emph{sleeping} (S), \emph{traced} ou \emph{stopped} (T) et \emph{zombie} (Z).
+	
+\begin{itemize}
+	\item Un processus ayant l'état \textbf{running} est en cours d'exécution. Ça veut dire qu'il est actif et en train d'utiliser la CPU du système.
+	\item L'état \textbf{sleeping} est l'état des processus qui sont suspendus : il n'utilisent pas la CPU du système et il peuvent être interrompus en utilisant de signales. Ce sont des processus qui attendent qu'un événement finisse pour se réveiller.
+	\item L'état \textbf{uninterruptible sleep} correspond à des processus qui sont suspendus et qui ne peuvent pas être interrompus. Normalement il sont en train d'attendre une opération d'entrée-sortie du disque. 
+	\item L'état \textbf{traced} ou \textbf{stopped} est l'état d'un processus qui a été arrêté par une signale, usuellement par SIGSTOP ou SIGTSTP. Il peut être résume en lui envoyant la signale SIGCONT.
+	\item On appelle \textbf{zombie} un processus dont son exécution est finie avec un code spécifique - le exit code. Le processus attend seulement que son parent collecte ce code. 
+\end{itemize} 
+	}
+
+
+\end{homeworkProblem}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}[2. Quelles sont les paramètres de ps pour avoir uniquement les processus d'un état ?] % Custom section title
+
+\end{homeworkProblem}
+
+\problemAnswer{ %Answer
+
+Une solution possible à ce problème en utilisant la commande awk :  
+
+\begin{lstlisting}[language=bash]^^J
+	ps -aux | awk \{'if (substr($8,1,1) ==  "S") print $0'\}
+\end{lstlisting}
+
+Dans l'exemple précedent on utilise un tube pour diriger la sortie de ps vers awk. awk va comparer la première lettre de la colonne 8 - où il y a les états - avec une chaîne de caractères correspondant au lettre de l'état qu'on veut. Pour chaque ligne où cette comparaison est vraie, il va l'imprimer. \newline
+
+Bien sûr il faut remplacer à chaque fois le lettre S pour le lettre correspondant à l'état qu'on veut. Pour éviter de devoir à chaque fois taper la commande avec la lettre, on peut envisager de créer une fonction.
+
+	Une manière de le faire :
+	
+	\begin{lstlisting}[language=bash]^^J	
+	ps_for_stat() \{  
+	\end{lstlisting}
+	
+	\begin{lstlisting}[language=bash]^^J	
+	ps -aux | awk \{'if (substr($8,1,1) ==  "'"$1"'") print $0'\}
+	\end{lstlisting}
+	
+	\begin{lstlisting}[language=bash]^^J	
+	\}  
+	\end{lstlisting}
+	
+	On pourrait par exemple mettre ce code dans ~/.bashrc et ajouter en suite:
+	
+	\begin{lstlisting}[language=bash]^^J	
+	import -f ps_for_stat
+	\end{lstlisting}	
+	
+	Finalement, on pourrait l'utiliser dans une nouvelle terminale 
+	
+	\begin{lstlisting}[language=bash]^^J	
+		ps_for_stat S
+	\end{lstlisting}
+	
+	Ce qui nous donnera - au moins sur Ubuntu 16.04 - une liste de processus avec l'état correspondant au paramètre passé par ligne de commande. 	
+}
+
+\end{document}
