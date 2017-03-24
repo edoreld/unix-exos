@@ -8,11 +8,10 @@
 **/
 
 #include <stdio.h> 
-#include <ctype.h> // Library needed to use getchar()
+#include <ctype.h> // Library needed to use the functions that will tell us the type of a character
 
 int main() {
 	// We declare and initialize variables that will keep track of the characters to be entered by the user
-	//int alphaCounter = 0, numCounter = 0, specialCounter = 0;
 
 	typedef struct { 
 		int alphaCounter;
@@ -33,10 +32,13 @@ int main() {
 	// We detect what kind of character it is and we then increase the appropriate counter
 	while ((in = (char) getchar()) != EOF) { 
 			
-			if (in == '\n' || in == ' ' ) {
+			if (in == '\n') {
 				printf("> ");
 				continue;
 			} 
+			else if (in == ' ') {
+				continue;	
+			}
 			else if (isalpha(in)) {
 				statTracker.alphaCounter++;
 			}
