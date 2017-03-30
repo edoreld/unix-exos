@@ -1,0 +1,244 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\lstset
+{ %Formatting for code in appendix
+    language=C,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ :\ \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problème \arabic{#1} continué à la page suivante\ldots}\nobreak{}
+    \nobreak\extramarks{Problème \arabic{#1} (continué)}{Problème \arabic{#1} continué à la page suivante\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problème \arabic{#1} (continued)}{Problème \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problème \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problème \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problème \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Devoir\ sur le type de caractères}
+\newcommand{\hmwkDueDate}{30ème Mars}
+\newcommand{\hmwkClass}{Unix}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Arhodakis Georgios}
+\newcommand{\hmwkAuthorName}{\textbf{Javier Martínez Lago}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{À\ rendre\ avant le \hmwkDueDate\ à 13:45pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+    Écrire un programme en C qui lit des caractères par ligne de commande en boucle et qui détecte leur type. Si le caractère EOF est détecté, le programme finit en imprimant les statistiques d'entrée de caractères.  
+	\newline
+    
+    \textbf{Solution}
+
+	Le programme complet peut être trouvé sur le fichier adjoint "p.c". Dans ce document je me limite à commenter avec plus de détail les différentes parties du code. 
+
+	\begin{lstlisting}
+	#include <stdio.h> 
+	#include <ctype.h> 
+	\end{lstlisting}
+	
+
+
+	On aura besoin de la librairie "stdio.h" pour lire l'entrée de l'utilisateur. La librairie "ctype.h" nous donne un raccourci pour déterminer le type d'un caractère avec les fonctions : isalpha() et isnumber().
+	
+	\begin{lstlisting}
+	typedef struct { 
+		int alphaCounter;
+		int numCounter;
+		int specialCounter;
+	} statBlock;
+
+	statBlock statTracker;
+
+	statTracker.alphaCounter = statTracker.numCounter = statTracker.specialCounter = 0;
+	\end{lstlisting}
+	
+	Sur la ligne 1 on utilise typedef pour créer un nouveau type de variable avec un struct personnalisé contenant trois compteurs pour le différents types de caractères. 
+	
+	En suite, on déclare une variable du nouveau type qu'on vient de créer et on initialise les compteurs. 
+	
+	\begin{lstlisting}
+	char in;
+	\end{lstlisting}
+	
+	La variable in aura comme but de stocker temporairement l'entrée de l'utilisateur. 
+
+	\begin{lstlisting}
+	while ((in = (char) getchar()) != EOF) { 
+			
+			if (in == '\n') {
+				printf("> ");
+			} 
+			else if (in == ' ') {
+				continue;	
+			}
+			else if (isalpha(in)) {
+				statTracker.alphaCounter++;
+			}
+			else if (isdigit(in)) {
+				statTracker.numCounter++;
+			} 
+			else {
+				statTracker.specialCounter++;
+			
+		}
+	}
+
+	\end{lstlisting}
+	
+	Voici le boucle qui va lire l'entrée de l'utilisateur. Il va s'exécuter jusqu'a qu'il reçois le caractère EOF (Ctrl + D sur macOs et Linux, Ctrl + Z sur Windows). 
+	
+	Pour chaque caractère qu'est introduit, le boucle va déterminer c'est qui se passé. Il y a 5 cas :
+	
+	1. Le caractère est un linebreak (fin de ligne). Il y aura ce caractère chaque fois que l'utilisateur appuie sur la touche retour. Dans ce cas, le programme va simplement imprimer "> " pour demander un nouveau caractère.  
+	
+	2.  Le caractère est un espace. Dans ce cas le programme lit le caractère suivant.  
+	
+	
+\pagebreak
+
+	3. Le caractère est alphabétique. Dans ce cas le programme incrémente le compteur de caractères alphabétiques. 
+	4. Le caractère est un nombre. Dans ce cas le programme incrément le compteur de nombres.
+	5. Si le caractère n'est pas alphabétique ni numérique, alors il est spécial. Dans ce cas le programme incrément le compteur de caractères spéciales.
+	
+	\begin{lstlisting}
+		printf("\nStatistics\n##########\n");
+		printf("Alphabetical characters: %d\n",2statTracker.alphaCounter);
+		printf("Numerical characters: %d\n", statTracker.numCounter);
+		printf("Special characters: %d\n", statTracker.specialCounter);
+	\end{lstlisting}
+	
+	À la fin on imprime les statistiques sur le caractères. 
+\end{homeworkProblem}
+
+\end{document}
