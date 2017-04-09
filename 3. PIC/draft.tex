@@ -1,0 +1,176 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\lstset
+{ %Formatting for code in appendix
+    language=C,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ :\ \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problème \arabic{#1} continué à la page suivante\ldots}\nobreak{}
+    \nobreak\extramarks{Problème \arabic{#1} (continué)}{Problème \arabic{#1} continué à la page suivante\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problème \arabic{#1} (continued)}{Problème \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problème \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problème \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problème \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Devoir\ sur\ PIC}
+\newcommand{\hmwkDueDate}{29ème Avril}
+\newcommand{\hmwkClass}{Unix}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Arhodakis Georgios}
+\newcommand{\hmwkAuthorName}{\textbf{Javier Martínez Lago}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{À\ rendre\ avant le \hmwkDueDate\ à 13:45pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+    Vous allez compiler, fabriquer votre programme en assemblant l’ensemble des fonctions qui sont sur le visuel (opendir, readdir, closedir, changer, etc). 
+
+    Changer les options de votre compilateur pour qu’il puisse fabriquer ou non " Position Independent Code ".
+
+    Comment faut-il faire pour que mon programme roule indifféremment à n’importe quelle partition ?
+	\newline
+    
+    \textbf{Solution}
+    
+    Vous pouvez trouver le programme en fichier joint. L'option de compilation -fPIC des programmes gcc et cc permet de compiler le code en mode PIC. Ce mode permet au code de s'éxecuter indépendamment de l'adresse dans laquelle il se trouve. 
+    \newline
+
+    Pourquoi un programme en mode PIC peut s'éxécuter indépendemment de l'adresse dans laquelle il se trouve  ? Car au lieu d'utiliser des adresse absolues, il utilise des redirections vers le Global Offset Table (GOT) et le Procedure Linkage Table (PLT). Ces deux tables, qui sont situées à une distance fixe du code, contiennent de redirections. Elle sont utilisés par le programme dès que il a besoin d'appeller fonctions non-statiques (PLT) et variables global et statiques (GOT). 
+	\newline
+	
+	Le mode PIC est utilisé par les librairies partagées. En effet, le linkeur ne sais pas dans quelle adresse de mémoire virtuelle la librairie va être stockée. Dans des differents processus la même librairie partagé va dévoir pouvoir s'éxecuter dans des adresses différents. C'est pour ça que le code de la librairie doit être position independent. 
+\end{homeworkProblem}
+
+\end{document}
